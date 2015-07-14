@@ -20,6 +20,28 @@ class Board
     @marks = options[:marks] || defaults[:marks]
   end
 
+  def winner
+    (rows + columns + diagonals).each do |triple|
+      @marks.each { |mark| return mark if triple == [mark, mark, mark] }
+    end
+
+    nil
+  end
+
+  def won?
+    !winner.nil?
+  end
+
+  def tied?
+    return false if won?
+
+    @rows.flatten.none? { |el| el.nil? }
+  end
+
+  def over?
+    won? || tied?
+  end
+
   def [](pos)
     self.class.validate_pos(pos)
 
@@ -49,28 +71,6 @@ class Board
     up_diag = [[2, 0], [1, 1], [0, 2]]
 
     [down_diag, up_diag].map { |diag| diag.map { |row, col| @rows[row][col] } }
-  end
-
-  def winner
-    (rows + columns + diagonals).each do |triple|
-      @marks.each { |mark| return mark if triple == [mark, mark, mark] }
-    end
-
-    nil
-  end
-
-  def won?
-    !winner.nil?
-  end
-
-  def tied?
-    return false if won?
-
-    @rows.flatten.none? { |el| el.nil? }
-  end
-
-  def over?
-    won? || tied?
   end
 
   def dup
