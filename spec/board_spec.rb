@@ -49,4 +49,23 @@ describe Board do
       expect { sample_board[[0,0]] = :o }.to raise_error("mark already placed at position")
     end
   end
+
+  context 'checking winning positions' do
+    it "returns #rows" do
+      expect( sample_board.rows ).to eq([[:x, :o, :x],
+                                         [nil, :o, nil],
+                                         [nil, :x, nil]])
+    end
+
+    it "returns #columns" do
+      expect( sample_board.columns ).to eq([[:x, nil, nil],
+                                            [:o, :o, :x],
+                                            [:x, nil, nil]])
+    end
+
+    it "returns #diagonals" do
+      expect( sample_board.diagonals ).to eq([[:x, :o, nil],
+                                              [nil, :o, :x]])
+    end
+  end
 end
