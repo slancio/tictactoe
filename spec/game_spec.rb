@@ -20,4 +20,7 @@ describe TicTacToe do
       expect(game2.board.marks).to match_array([:y, :z])
     end
   end
+
+  describe '#show' do
+  end
 end

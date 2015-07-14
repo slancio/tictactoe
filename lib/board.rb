@@ -15,7 +15,7 @@ class Board
       :rows => self.class.empty_board,
       :marks => [:x, :o]
     }
-    
+
     @rows = options[:rows] || defaults[:rows]
     @marks = options[:marks] || defaults[:marks]
   end
@@ -75,5 +75,20 @@ class Board
 
   def dup
     self.class.new({rows: rows.map(&:dup), marks: marks})
+  end
+
+  def render
+    "".tap do |board_string|
+      @rows.each do |row|
+        row.each do |place|
+          if place.nil?
+            board_string << " "
+          else
+            board_string << place.to_s.upcase
+          end
+        end
+        board_string << "\n"
+      end
+    end
   end
 end

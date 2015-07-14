@@ -136,4 +136,10 @@ describe Board do
       expect( winning_col_three.over? ).to eq(true)
     end
   end
+
+  describe '#render' do
+    it "renders the board" do
+      expect( sample_board.render ).to eq("XOX\n O \n X \n")
+    end
+  end
 end

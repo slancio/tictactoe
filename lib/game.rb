@@ -19,4 +19,8 @@ class TicTacToe
     @board = options[:board] || defaults[:board]
     @players = options[:players] || defaults[:players]
   end
+
+  def show
+    @board.render
+  end
 end
