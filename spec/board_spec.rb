@@ -59,6 +59,10 @@ describe Board do
 
       expect { sample_board[[0,0]] = :o }.to raise_error("mark already placed at position")
     end
+
+    it "raises an error on invalid marks" do
+      expect { sample_board[[1,2]] = :y }.to raise_error("invalid mark")
+    end
   end
 
   context 'checking winning positions' do

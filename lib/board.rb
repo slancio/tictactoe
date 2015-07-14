@@ -10,8 +10,9 @@ class Board
     raise "position out of Board range" unless pos.all? { |axis| axis >= 0 && axis <= 2 }
   end
 
-  def initialize(rows = self.class.empty_board)
+  def initialize(rows = self.class.empty_board, marks = [:x, :o])
     @rows = rows
+    @marks = marks
   end
 
   def [](pos)
@@ -24,6 +25,7 @@ class Board
   def []=(pos, mark)
     self.class.validate_pos(pos)
     raise "mark already placed at position" unless empty_pos?(pos)
+    raise "invalid mark" unless @marks.include?(mark)
     
     row, col = pos[0], pos[1]
     @rows[row][col] = mark
@@ -46,8 +48,7 @@ class Board
 
   def winner
     (rows + columns + diagonals).each do |triple|
-      return :x if triple == [:x, :x, :x]
-      return :o if triple == [:o, :o, :o]
+      @marks.each { |mark| return mark if triple == [mark, mark, mark] }
     end
 
     nil
