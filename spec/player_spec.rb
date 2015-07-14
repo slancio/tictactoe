@@ -11,3 +11,16 @@ describe Player do
     end
   end
 end
+
+describe HumanPlayer do
+  let(:test_human) do
+    HumanPlayer.new("User")
+  end
+
+  describe '#initialize' do
+    it "has a name" do
+      expect( test_human.name ).to eq("User")
+    end
+  end
+end
+
