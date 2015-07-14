@@ -66,4 +66,8 @@ class Board
   def over?
     won? || tied?
   end
+
+  def dup
+    self.class.new(rows.map(&:dup))
+  end
 end

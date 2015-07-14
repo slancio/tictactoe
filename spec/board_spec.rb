@@ -16,6 +16,17 @@ describe Board do
     end
   end
 
+  describe '#dup' do
+    let(:duped_sample) do
+      sample_board.dup
+    end
+
+    it "returns a deep_duped Board object" do
+      expect( sample_board.rows ).to eq(duped_sample.rows)
+      expect( sample_board ).not_to eq(duped_sample)
+    end
+  end
+
   context 'working with positions' do
     it "returns the mark at a coordinate" do
       expect( sample_board[[0,0]] ).to eq(:x)
