@@ -35,6 +35,10 @@ class TicTacToe
     end
   end
 
+  def current_player
+    @players[@turn_order.first]
+  end
+
   def show
     puts @board.render
   end
@@ -43,6 +47,13 @@ class TicTacToe
 
     def play_turn
       while true
+
       end
+
+      next_turn
+    end
+
+    def next_turn
+      @turn_order.rotate!
     end
 end

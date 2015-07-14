@@ -45,7 +45,6 @@ describe TicTacToe do
   end
 
   context 'playing the game' do
-
     it "stops when the game is over" do
       expect{ won_game.play }.to output.to_stdout
       expect( won_game ).not_to receive(:play_turn)
@@ -57,6 +56,17 @@ describe TicTacToe do
 
     it "declares ties" do
       expect{ tied_game.play }.to output("No one wins!\n").to_stdout
+    end
+
+    it "knows the #current_player" do
+      game = TicTacToe.new
+      expect( game.current_player ).to eq(game.players[:x])
+    end
+
+    it "changes turn order" do
+      game = TicTacToe.new
+      game.send(:next_turn)
+      expect( game.current_player ).to eq(game.players[:o])
     end
   end
 
