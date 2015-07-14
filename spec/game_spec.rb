@@ -68,6 +68,23 @@ describe TicTacToe do
       game.send(:next_turn)
       expect( game.current_player ).to eq(game.players[:o])
     end
+
+    it "places a mark on a valid move" do
+      class TestPlayer < ComputerPlayer
+        def initialize
+          super
+        end
+
+        def move(game, mark)
+          [0, 0]
+        end
+      end
+      board = Board.new({ rows: [[nil, :x, :x], [:x, :o, :o], [:x, :o, :o]] })
+      game = TicTacToe.new({ board: board,
+                             players: { :x => TestPlayer.new, :o => TestPlayer.new },
+                             turn_order: [:x, :o]})
+      expect{ game.play }.to output(/won the game!/).to_stdout
+    end
   end
 
   describe '#show' do

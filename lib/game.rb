@@ -39,6 +39,10 @@ class TicTacToe
     @players[@turn_order.first]
   end
 
+  def current_player_mark
+    @players.key current_player
+  end
+
   def show
     puts @board.render
   end
@@ -47,10 +51,20 @@ class TicTacToe
 
     def play_turn
       while true
-
+        pos = current_player.move(self, current_player_mark)
+        break if place_mark(pos, current_player_mark)
       end
 
       next_turn
+    end
+
+    def place_mark(pos, mark)
+      if @board.empty_pos?(pos)
+        @board[pos] = mark
+        true
+      else
+        false
+      end
     end
 
     def next_turn
