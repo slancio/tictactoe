@@ -74,16 +74,32 @@ describe TicTacToe do
         def initialize
           super
         end
-
         def move(game, mark)
           [0, 0]
         end
       end
+
+      class TestPlayer2 < ComputerPlayer
+        def initialize
+          super
+        end
+        def move(game, mark)
+          [0, 1]
+        end
+      end
+
       board = Board.new({ rows: [[nil, :x, :x], [:x, :o, :o], [:x, :o, :o]] })
       game = TicTacToe.new({ board: board,
                              players: { :x => TestPlayer.new, :o => TestPlayer.new },
                              turn_order: [:x, :o]})
       expect{ game.play }.to output(/won the game!/).to_stdout
+
+      board = Board.new({ rows: [[nil, nil, :x], [nil, :o, :o], [:x, :o, :o]] })
+      game = TicTacToe.new({ board: board,
+                             players: { :x => TestPlayer.new, :o => TestPlayer2.new },
+                             turn_order: [:x, :o]})
+      expect{ game.play }.to output(/won the game!/).to_stdout
+
     end
   end
 
