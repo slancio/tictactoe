@@ -18,17 +18,23 @@ describe TicTacToe do
       expect( game.players.values ).to include(player_x)
       expect( game.players.values ).to include(player_o)
       expect( board.marks ).to match_array(game.players.keys)
-      expect( game.turn ).to eq(:x)
+      expect( game.turn_order.first ).to eq(:x)
 
       player_y = Player.new("Steve")
       player_z = Player.new("Laura")
       game2 = TicTacToe.new({players: { :y => player_y, :z => player_z }})
       expect( game2.board.marks ).to match_array(game2.players.keys)
       expect( game2.board.marks ).to match_array([:y, :z])
-      expect( game2.turn ).to eq(:y)
+      expect( game2.turn_order.first ).to eq(:y)
 
-      game3 = TicTacToe.new({players: { :y => player_y, :z => player_z }, turn: :z})
-      expect( game3.turn ).to eq(:z)
+      game3 = TicTacToe.new({players: { :y => player_y, :z => player_z }, turn_order: [:z, :y]})
+      expect( game3.turn_order.first ).to eq(:z)
+
+      game4 = TicTacToe.new
+      expect( game4.board.marks).to match_array([:x, :o])
+      names = []
+      game4.players.values.each { |player| names << player.name }
+      expect( names ).to match_array(["X", "O"])
     end
   end
 
