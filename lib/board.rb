@@ -62,4 +62,8 @@ class Board
 
     @rows.flatten.none? { |el| el.nil? }
   end
+
+  def over?
+    won? || tied?
+  end
 end

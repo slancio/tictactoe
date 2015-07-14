@@ -100,5 +100,11 @@ describe Board do
       expect( winning_diag_one.tied? ).to eq(false)
       expect( tied_board.tied? ).to eq(true)
     end
+
+    it "can be over?" do
+      expect( sample_board.over? ).to eq(false)
+      expect( tied_board.over? ).to eq(true)
+      expect( winning_col_three.over? ).to eq(true)
+    end
   end
 end
