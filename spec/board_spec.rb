@@ -59,9 +59,23 @@ describe Board do
 
       expect { sample_board[[0,0]] = :o }.to raise_error("mark already placed at position")
     end
+  end
+
+  context 'working with marks' do
+    let(:crazy_board) do
+      Board.new({marks: [:y, :z]})
+    end
+
+    it "sets correct marks" do
+      sample_board[[1, 2]] = :x
+      crazy_board[[1, 2]] = :y
+      expect( sample_board[[1, 2]]).to eq(:x)
+      expect( crazy_board[[1, 2]]).to eq(:y)
+    end
 
     it "raises an error on invalid marks" do
       expect { sample_board[[1,2]] = :y }.to raise_error("invalid mark")
+      expect { crazy_board[[1,2]] = :x }.to raise_error("invalid mark")
     end
   end
 
