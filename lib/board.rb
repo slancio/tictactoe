@@ -43,4 +43,13 @@ class Board
 
     [down_diag, up_diag].map { |diag| diag.map { |row, col| @rows[row][col] } }
   end
+
+  def winner
+    (rows + columns + diagonals).each do |triple|
+      return :x if triple == [:x, :x, :x]
+      return :o if triple == [:o, :o, :o]
+    end
+
+    nil
+  end
 end
