@@ -59,6 +59,7 @@ describe Board do
     let(:winning_col_three) {Board.new( [[:x, :o, :x],   [:o, :x, :x],   [:o, :x, :x]]   )}
     let(:winning_diag_one)  {Board.new( [[:x, :o, nil],  [nil, :x, nil], [:o, :x, :x]]   )}
     let(:winning_diag_two)  {Board.new( [[:o, nil, :x],  [:o, :x, :x],   [:x, :o, nil]]  )}
+    let(:tied_board)        {Board.new( [[:o, :x, :o],   [:x, :o, :x],   [:x, :o, :x]]   )}
     
     it "returns #rows" do
       expect( sample_board.rows ).to eq([[:x, :o, :x],
@@ -87,6 +88,17 @@ describe Board do
       expect( winning_diag_one.winner ).to eq(:x)
       expect( winning_diag_two.winner ).to eq(:x)
       expect( sample_board.winner ).to eq(nil)
+      expect( tied_board.winner ).to eq(nil)
+    end
+
+    it "can be won?" do
+      expect( sample_board.won? ).to eq(false)
+      expect( winning_row_one.won? ).to eq(true)
+    end
+
+    it "can be tied?" do
+      expect( winning_diag_one.tied? ).to eq(false)
+      expect( tied_board.tied? ).to eq(true)
     end
   end
 end

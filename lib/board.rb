@@ -52,4 +52,14 @@ class Board
 
     nil
   end
+
+  def won?
+    !winner.nil?
+  end
+
+  def tied?
+    return false if won?
+
+    @rows.flatten.none? { |el| el.nil? }
+  end
 end
