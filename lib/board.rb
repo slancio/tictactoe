@@ -15,6 +15,7 @@ class Board
       :rows => self.class.empty_board,
       :marks => [:x, :o]
     }
+    
     @rows = options[:rows] || defaults[:rows]
     @marks = options[:marks] || defaults[:marks]
   end
