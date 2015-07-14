@@ -24,6 +24,19 @@ class TicTacToe
     @turn = options[:turn] || defaults[:turn]
   end
 
+  def play
+    until @board.over?
+      play_turn
+    end
+
+    if @board.won?
+      winning_player = @players[@board.winner]
+      puts "#{winning_player.name} won the game!"
+    else
+      puts "No one wins!"
+    end
+  end
+
   def show
     @board.render
   end

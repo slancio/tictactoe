@@ -1,10 +1,16 @@
 require 'game'
 
 describe TicTacToe do
+  let(:player_x) { Player.new("Fred") }
+  let(:player_o) { Player.new("Joe") }
+  let(:won_board) { Board.new({ rows: [[:x, :x, :x],   [:o, :x, :o],   [nil, :o, nil]] }) }
+  let(:won_game) { TicTacToe.new({ board: won_board,
+                                   players: { :x => player_x, :o => player_o } }) }
+  let(:tied_board) { Board.new({ rows: [[:o, :x, :o],   [:x, :o, :x],   [:x, :o, :x]]   }) }
+  let(:tied_game) { TicTacToe.new({ board: tied_board })}
+
   describe '#initialize' do
     it "sets up the game" do
-      player_x = Player.new("Fred")
-      player_o = Player.new("Joe")
       board = Board.new()
       game = TicTacToe.new({board: board, players: { :x => player_x, :o => player_o }})
 
@@ -23,6 +29,22 @@ describe TicTacToe do
 
       game3 = TicTacToe.new({players: { :y => player_y, :z => player_z }, turn: :z})
       expect( game3.turn ).to eq(:z)
+    end
+  end
+
+  context 'playing the game' do
+
+    it "stops when the game is over" do
+      won_game.play
+      expect( won_game ).not_to receive(:play_turn)
+    end
+
+    it "declares the name of the winning player" do
+      expect{ won_game.play }.to output("Fred won the game!\n").to_stdout
+    end
+
+    it "declares ties" do
+      expect{ tied_game.play }.to output("No one wins!\n").to_stdout
     end
   end
 
