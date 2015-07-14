@@ -78,16 +78,11 @@ class Board
   end
 
   def render
-    "".tap do |board_string|
+    "".tap do |output|
       @rows.each do |row|
-        row.each do |place|
-          if place.nil?
-            board_string << " "
-          else
-            board_string << place.to_s.upcase
-          end
-        end
-        board_string << "\n"
+        row.each { |mark| mark.nil? ? output << " "
+                                    : output << mark.to_s.upcase }
+        output << "\n"
       end
     end
   end
