@@ -1,5 +1,5 @@
 class Board
-  attr_reader :rows
+  attr_reader :rows, :marks
 
   def self.empty_board
     Array.new(3) { Array.new(3) }
@@ -10,9 +10,13 @@ class Board
     raise "position out of Board range" unless pos.all? { |space| (0..2).include?(space) }
   end
 
-  def initialize(rows = self.class.empty_board, marks = [:x, :o])
-    @rows = rows
-    @marks = marks
+  def initialize(options = {})
+    defaults = {
+      :rows => self.class.empty_board,
+      :marks => [:x, :o]
+    }
+    @rows = options[:rows] || defaults[:rows]
+    @marks = options[:marks] || defaults[:marks]
   end
 
   def [](pos)
@@ -69,6 +73,6 @@ class Board
   end
 
   def dup
-    self.class.new(rows.map(&:dup))
+    self.class.new({rows: rows.map(&:dup), marks: marks})
   end
 end

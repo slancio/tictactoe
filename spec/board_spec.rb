@@ -2,9 +2,9 @@ require 'board'
 
 describe Board do
   let(:sample_board) do
-    Board.new([[:x, :o, :x],
-               [nil, :o, nil],
-               [nil, :x, nil]])
+    Board.new({rows: [[:x, :o, :x],
+                     [nil, :o, nil],
+                     [nil, :x, nil]]})
   end
   
   describe '#initialize' do
@@ -66,15 +66,15 @@ describe Board do
   end
 
   context 'checking winning positions' do
-    let(:winning_row_one)   {Board.new( [[:x, :x, :x],   [:o, :x, :o],   [nil, :o, nil]] )}
-    let(:winning_row_two)   {Board.new( [[:x, :o, :x],   [:o, :o, :o],   [:x, :nil, :x]] )}
-    let(:winning_row_three) {Board.new( [[:o, :nil, :o], [:o, :x, :o],   [:x, :x, :x]]   )}
-    let(:winning_col_one)   {Board.new( [[:x, :o, :x],   [:x, nil, :o],  [:x, nil, nil]] )}
-    let(:winning_col_two)   {Board.new( [[nil, :o, :x],  [:x, :o, nil],  [nil, :o, nil]] )}
-    let(:winning_col_three) {Board.new( [[:x, :o, :x],   [:o, :x, :x],   [:o, :x, :x]]   )}
-    let(:winning_diag_one)  {Board.new( [[:x, :o, nil],  [nil, :x, nil], [:o, :x, :x]]   )}
-    let(:winning_diag_two)  {Board.new( [[:o, nil, :x],  [:o, :x, :x],   [:x, :o, nil]]  )}
-    let(:tied_board)        {Board.new( [[:o, :x, :o],   [:x, :o, :x],   [:x, :o, :x]]   )}
+    let(:winning_row_one)   {Board.new({ rows: [[:x, :x, :x],   [:o, :x, :o],   [nil, :o, nil]] })}
+    let(:winning_row_two)   {Board.new({ rows: [[:x, :o, :x],   [:o, :o, :o],   [:x, :nil, :x]] })}
+    let(:winning_row_three) {Board.new({ rows: [[:o, :nil, :o], [:o, :x, :o],   [:x, :x, :x]]   })}
+    let(:winning_col_one)   {Board.new({ rows: [[:x, :o, :x],   [:x, nil, :o],  [:x, nil, nil]] })}
+    let(:winning_col_two)   {Board.new({ rows: [[nil, :o, :x],  [:x, :o, nil],  [nil, :o, nil]] })}
+    let(:winning_col_three) {Board.new({ rows: [[:x, :o, :x],   [:o, :x, :x],   [:o, :x, :x]]   })}
+    let(:winning_diag_one)  {Board.new({ rows: [[:x, :o, nil],  [nil, :x, nil], [:o, :x, :x]]   })}
+    let(:winning_diag_two)  {Board.new({ rows: [[:o, nil, :x],  [:o, :x, :x],   [:x, :o, nil]]  })}
+    let(:tied_board)        {Board.new({ rows: [[:o, :x, :o],   [:x, :o, :x],   [:x, :o, :x]]   })}
     
     it "returns #rows" do
       expect( sample_board.rows ).to eq([[:x, :o, :x],
