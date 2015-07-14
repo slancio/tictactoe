@@ -3,6 +3,8 @@ require 'game'
 describe TicTacToe do
   let(:player_x) { Player.new("Fred") }
   let(:player_o) { Player.new("Joe") }
+  let(:player_y) { Player.new("Steve") }
+  let(:player_z) { Player.new("Laura") }
   let(:won_board) { Board.new({ rows: [[:x, :x, :x],   [:o, :x, :o],   [nil, :o, nil]] }) }
   let(:won_game) { TicTacToe.new({ board: won_board,
                                    players: { :x => player_x, :o => player_o } }) }
@@ -19,17 +21,21 @@ describe TicTacToe do
       expect( game.players.values ).to include(player_o)
       expect( board.marks ).to match_array(game.players.keys)
       expect( game.turn_order.first ).to eq(:x)
+    end
 
-      player_y = Player.new("Steve")
-      player_z = Player.new("Laura")
+    it "sets board marks to player marks" do
       game2 = TicTacToe.new({players: { :y => player_y, :z => player_z }})
       expect( game2.board.marks ).to match_array(game2.players.keys)
       expect( game2.board.marks ).to match_array([:y, :z])
       expect( game2.turn_order.first ).to eq(:y)
+    end
 
+    it "can have specified turn order" do
       game3 = TicTacToe.new({players: { :y => player_y, :z => player_z }, turn_order: [:z, :y]})
       expect( game3.turn_order.first ).to eq(:z)
+    end
 
+    it "has sensible default names and marks" do
       game4 = TicTacToe.new
       expect( game4.board.marks).to match_array([:x, :o])
       names = []
