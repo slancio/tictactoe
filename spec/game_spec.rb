@@ -35,7 +35,7 @@ describe TicTacToe do
   context 'playing the game' do
 
     it "stops when the game is over" do
-      won_game.play
+      expect{ won_game.play }.to output.to_stdout
       expect( won_game ).not_to receive(:play_turn)
     end
 
@@ -49,5 +49,10 @@ describe TicTacToe do
   end
 
   describe '#show' do
+    it "outputs the board state" do
+      new_game = TicTacToe.new
+      expect{ new_game.show }.to output("   \n   \n   \n").to_stdout
+      expect{ won_game.show }.to output("XXX\nOXO\n O \n").to_stdout
+    end
   end
 end

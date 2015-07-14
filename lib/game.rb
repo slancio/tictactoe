@@ -38,6 +38,6 @@ class TicTacToe
   end
 
   def show
-    @board.render
+    puts @board.render
   end
 end
