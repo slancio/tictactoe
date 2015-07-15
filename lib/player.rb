@@ -4,12 +4,18 @@ class Player
   def initialize(name)
     @name = name
   end
+
+  def move(*args)
+    raise "Player::move should not be called"
+  end
 end
 
 class HumanPlayer < Player
   def initialize(name)
     super(name)
   end
+
+
 end
 
 class ComputerPlayer < Player
