@@ -48,6 +48,38 @@ describe TicTacToeNode do
   end
 
   describe '#winning_node?' do
+    let(:winner) do 
+      node = TicTacToeNode.new(Board.new, :x)
+      node.board[[0,0]] = :x
+      node.board[[2,2]] = :x
+      node.board[[0,2]] = :x
+      node
+    end
+
+    let(:won_node) do
+      node = TicTacToeNode.new(Board.new, :x)
+      node.board[[0,0]] = :x
+      node.board[[0,1]] = :x
+      node.board[[0,2]] = :x
+      node
+    end
+
+    it "knows when the game is already won" do
+      expect( won_node.winning_node?(:o) ).to eq(false)
+      expect( won_node.winning_node?(:x) ).to eq(true)
+    end
+
+    context "on the player's turn" do
+      it "knows when any child is a winner" do
+        expect( winner.winning_node?(:x) ).to eq(true)
+      end
+    end
+
+    context "on the opponent's turn" do
+      it "knows when every child is a winner" do
+        expect( winner.winning_node?(:o) ).to eq(false)
+      end
+    end
 
   end
 

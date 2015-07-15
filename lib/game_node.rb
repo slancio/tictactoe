@@ -1,5 +1,6 @@
 class TicTacToeNode
-  attr_reader :board, :next_mark, :prev_mark_pos
+  attr_reader :board
+  attr_accessor :next_mark, :prev_mark_pos
 
   def initialize(board, next_mark, prev_mark_pos = nil)
     @board, @next_mark, @prev_mark_pos =
@@ -14,13 +15,22 @@ class TicTacToeNode
     if @next_mark == mark
       self.children.all? { |child| child.losing_node?(mark) }
     else
-      self.children.any? { |child| child.losing_node?(mark) }
+      self.children.any? do |child|
+        child.next_mark = mark
+        child.winning_node?(@next_mark)
+      end
     end
   end
 
   def winning_node?(mark)
     if board.over?
       return board.winner == mark
+    end
+
+    if @next_mark == mark
+      self.children.any? { |child| child.winning_node?(mark) }
+    else
+      self.children.all? { |child| child.winning_node?(mark) }
     end
   end
 

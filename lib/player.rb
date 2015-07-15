@@ -52,4 +52,26 @@ class ComputerPlayer < Player
   def initialize
     super(self.class.names.sample)
   end
+
+  def move(game, mark)
+    node = TicTacToeNode.new(game.board, mark)
+
+    possible_moves = node.children.shuffle
+
+    # Make any winning move
+    node = possible_moves.find{ |child| child.winning_node?(mark) }
+    return node.prev_mark_pos if node
+
+    # Block an opponent's win
+    possible_moves.each do |child|
+      child.children.each do |grandchild|
+        node = grandchild if grandchild.board.over?
+      end
+    end
+    return node.prev_mark_pos if node
+
+    # Make a non-losing move
+    node = possible_moves.find{ |child| !child.losing_node?(mark) }
+    return node.prev_mark_pos if node
+  end
 end

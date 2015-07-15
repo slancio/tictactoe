@@ -31,7 +31,7 @@ describe Board do
     it "returns the mark at a coordinate" do
       expect( sample_board[[0,0]] ).to eq(:x)
       expect( sample_board[[1,1]] ).to eq(:o)
-      expect( sample_board[[2,2]] ).to eq(nil)
+      expect( sample_board[[2,2]] ).to be_nil
     end
 
     it "sets the mark at a coordinate" do
@@ -116,8 +116,8 @@ describe Board do
       expect( winning_col_three.winner ).to eq(:x)
       expect( winning_diag_one.winner ).to eq(:x)
       expect( winning_diag_two.winner ).to eq(:x)
-      expect( sample_board.winner ).to eq(nil)
-      expect( tied_board.winner ).to eq(nil)
+      expect( sample_board.winner ).to be_nil
+      expect( tied_board.winner ).to be_nil
     end
 
     it "can be won?" do

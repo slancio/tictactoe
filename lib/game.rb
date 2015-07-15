@@ -1,6 +1,6 @@
-require 'board'
-require 'player'
-require 'game_node'
+require_relative 'board'
+require_relative 'player'
+require_relative 'game_node'
 
 class TicTacToe
   attr_reader :board, :players, :turn_order
@@ -37,11 +37,11 @@ class TicTacToe
   end
 
   def current_player
-    @players[@turn_order.first]
+    @players[current_player_mark]
   end
 
   def current_player_mark
-    @players.key current_player
+    @turn_order.first
   end
 
   def show
