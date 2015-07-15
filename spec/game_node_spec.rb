@@ -27,5 +27,29 @@ describe TicTacToeNode do
       expect(empty_node.children.length).to eq(9)
       expect(first_child_node.children.length).to eq(8)
     end
+
+    it "children have different marks than their parent" do
+      expect(empty_node.children.all? do |child|
+        child.next_mark == :o
+      end).to eq(true)
+    end
+
+    it "children's prev_mark_pos equal to parent's move" do
+      child_prev_moves = empty_node.children.map{ |child| child.prev_mark_pos }
+      expect(child_prev_moves).to match_array([0,1,2].product([0,1,2]))
+    end
+
+    it "children's boards are dup of parent's" do
+      child_boards = empty_node.children.map { |child| child.board }
+      expect(child_boards.none? do |child_board|
+        child_board.object_id == empty_node.board.object_id
+      end).to eq(true)
+    end
+  end
+
+  describe '#winning_node?' do
+  end
+
+  describe '#losing_node?' do
   end
 end
