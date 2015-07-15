@@ -88,12 +88,14 @@ describe TicTacToe do
         end
       end
 
+      # first player win, first turn
       board = Board.new({ rows: [[nil, :x, :x], [:x, :o, :o], [:x, :o, :o]] })
       game = TicTacToe.new({ board: board,
                              players: { :x => TestPlayer.new, :o => TestPlayer.new },
                              turn_order: [:x, :o]})
       expect{ game.play }.to output(/won the game!/).to_stdout
 
+      # second player win, second turn
       board = Board.new({ rows: [[nil, nil, :x], [nil, :o, :o], [:x, :o, :o]] })
       game = TicTacToe.new({ board: board,
                              players: { :x => TestPlayer.new, :o => TestPlayer2.new },

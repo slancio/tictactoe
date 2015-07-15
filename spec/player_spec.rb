@@ -30,16 +30,8 @@ describe ComputerPlayer do
   end
 
   describe '#initialize' do
-    let(:computer_names) do
-      ["Tandy 400", "Compy 386",
-           "Lappy 486", "Compé",
-           "Lappier", "Roomy-Vac",
-           "Grampy Aught-Six", "Compydore 64",
-           "Corpy NT6", "Zappy XT6"]
-    end
-
     it "has a name" do
-      expect(computer_names).to include(test_computer.name)
+      expect(ComputerPlayer::names).to include(test_computer.name)
     end
   end
 end
