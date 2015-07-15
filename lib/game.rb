@@ -73,3 +73,14 @@ class TicTacToe
       @turn_order.rotate!
     end
 end
+
+if __FILE__ == $PROGRAM_NAME
+  require 'byebug'
+  computer = ComputerPlayer.new
+  puts "Play the unbeatable computer, #{computer.name}!"
+  puts "Please enter your name: "
+  player_name = gets.chomp
+  human = HumanPlayer.new(player_name)
+
+  TicTacToe.new({players: { x: human, o: computer}}).play
+end

@@ -89,6 +89,12 @@ describe ComputerPlayer do
     test_board[[1,1]] = :o
     double("TicTacToe", :board => test_board, :turn_order => [:x, :o])
   end
+  let(:non_losing) do
+    test_board = Board.new
+    test_board[[0,0]] = :x
+    test_board[[1,1]] = :o
+    double("TicTacToe", :board => test_board, :turn_order => [:x, :o])
+  end
 
   describe '#initialize' do
     it "has a name" do
@@ -109,6 +115,12 @@ describe ComputerPlayer do
 
     it "blocks opponent's winning moves" do
       expect( test_computer.move(blockable_win, :x) ).to eq([1,2])
+    end
+
+    it "picks a random move if none are winning or losing" do
+      move = test_computer.move(non_losing, :x)
+      expected_moves = [[0, 1], [0, 2], [1, 0], [1, 2], [2,0], [2,1], [2, 2]]
+      expect( expected_moves.find(move) ).to_not be_nil
     end
 
     # With the way that opponent blocking is written, this can
