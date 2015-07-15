@@ -63,6 +63,7 @@ class TicTacToe
         @board[pos] = mark
         true
       else
+        puts "A mark is already in that space"
         false
       end
     end

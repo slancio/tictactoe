@@ -101,8 +101,29 @@ describe TicTacToe do
                              players: { :x => TestPlayer.new, :o => TestPlayer2.new },
                              turn_order: [:x, :o]})
       expect{ game.play }.to output(/won the game!/).to_stdout
-
     end
+
+    # Output matchers aren't thread safe.
+    # This test and others like it will sometimes-pass/sometimes-fail
+    # Looking into a better way to test or restructure this code  
+    # 
+    # it "indicates an invalid move" do
+    #   class TestPlayer < ComputerPlayer
+    #     def initialize
+    #       super
+    #     end
+    #     def move(game, mark)
+    #       [0, 0]
+    #     end
+    #   end
+    #   board = Board.new({ rows: [[:x, :x, nil], [nil, :o, :o], [:x, :o, :o]] })
+    #   game = TicTacToe.new({ board: board,
+    #                          players: { :x => TestPlayer.new, :o => TestPlayer.new },
+    #                          turn_order: [:x, :o]})
+    #   thread = Thread.new { game.play }
+    #   expect{ thread.run }.to output(/A mark is already in that space/).to_stdout
+    #   thread.kill
+    # end
   end
 
   describe '#show' do
