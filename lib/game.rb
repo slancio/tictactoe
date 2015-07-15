@@ -1,5 +1,6 @@
 require 'board'
 require 'player'
+require 'game_node'
 
 class TicTacToe
   attr_reader :board, :players, :turn_order
