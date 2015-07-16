@@ -67,7 +67,7 @@ class ComputerPlayer < Player
           game.board[[0,2]].nil? &&
           game.board[[2,0]].nil? &&
           game.board[[2,2]].nil? &&
-          game.board[[1,1]].nil?
+          !game.board[[1,1]].nil?
         return corners.sample
       else
         return [1,1]
