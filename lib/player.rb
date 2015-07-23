@@ -100,6 +100,7 @@ class ComputerPlayer < Player
     def block_corner_fork(game, mark)
       return nil if game.board[[1,1]] != mark
 
+      # force opponent to block your win instead of forking you
       if (!game.board[[0,0]].nil? && !game.board[[2,2]].nil?) ||
          (!game.board[[0,2]].nil? && !game.board[[2,0]].nil?)
         return SIDES.sample
