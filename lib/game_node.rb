@@ -15,10 +15,7 @@ class TicTacToeNode
     if @next_mark == mark
       self.children.all? { |child| child.losing_node?(mark) }
     else
-      self.children.any? do |child|
-        child.next_mark = mark
-        child.winning_node?(@next_mark)
-      end
+      self.children.any? { |child| child.losing_node?(mark) }
     end
   end
 

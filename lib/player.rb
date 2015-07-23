@@ -82,6 +82,7 @@ class ComputerPlayer < Player
     # Make a non-losing move
     node = possible_moves.find{ |child| !child.losing_node?(mark) }
     return node.prev_mark_pos if node
+    return possible_moves.sample.prev_mark_pos
   end
 
   private
