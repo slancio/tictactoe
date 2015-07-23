@@ -98,12 +98,8 @@ class ComputerPlayer < Player
     # On first move, play a corner
     # If going second, play center unless the center and
     # corners are empty
-
-    if  game.board[[0,0]].nil? &&
-        game.board[[0,2]].nil? &&
-        game.board[[2,0]].nil? &&
-        game.board[[2,2]].nil? &&
-        !game.board[[1,1]].nil?
+    if CORNERS.all? { |pos| game.board[pos].nil? } &&
+       !game.board[[1,1]].nil?
       return CORNERS.sample
     end
     return [1,1]
@@ -114,7 +110,7 @@ class ComputerPlayer < Player
 
     if (!game.board[[0,0]].nil? && !game.board[[2,2]].nil?) ||
        (!game.board[[0,2]].nil? && !game.board[[2,0]].nil?)
-      return [0,1]
+      return [[0, 1], [1, 0], [1, 2], [2, 1]].sample
     end
 
     nil
