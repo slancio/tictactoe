@@ -58,7 +58,7 @@ class ComputerPlayer < Player
   def move(game, mark)
     return play_first_turn(game) if game.first_turn?
 
-    if game.empty_spaces == 6
+    if check_early_fork? game 
       second_move = block_corner_fork(game, mark)
       return second_move unless second_move.nil?
     end
@@ -114,5 +114,9 @@ class ComputerPlayer < Player
     end
 
     nil
+  end
+
+  def check_early_fork?(game)
+    game.empty_spaces == 6
   end
 end
