@@ -65,14 +65,14 @@ describe ComputerPlayer do
     test_board[[0,1]] = :x
     test_board[[1,0]] = :o
     test_board[[1,1]] = :o
-    double("TicTacToe", :board => test_board)
+    double("TicTacToe", :board => test_board, :empty_spaces => 5)
   end
   let(:blockable_win) do
     test_board = Board.new
     test_board[[0,0]] = :x
     test_board[[1,0]] = :o
     test_board[[1,1]] = :o
-    double("TicTacToe", :board => test_board, :turn_order => [:x, :o])
+    double("TicTacToe", :board => test_board, :turn_order => [:x, :o], :empty_spaces => 6)
   end
   # See note @ test below
   # let(:non_winnable) do
@@ -87,13 +87,13 @@ describe ComputerPlayer do
     test_board[[0,0]] = :x
     test_board[[2,2]] = :x
     test_board[[1,1]] = :o
-    double("TicTacToe", :board => test_board, :turn_order => [:x, :o])
+    double("TicTacToe", :board => test_board, :turn_order => [:x, :o], :empty_spaces => 6)
   end
   let(:non_losing) do
     test_board = Board.new
     test_board[[0,0]] = :x
     test_board[[1,1]] = :o
-    double("TicTacToe", :board => test_board, :turn_order => [:x, :o])
+    double("TicTacToe", :board => test_board, :turn_order => [:x, :o], :empty_spaces => 7)
   end
 
   describe '#initialize' do
@@ -104,20 +104,24 @@ describe ComputerPlayer do
 
   describe '#move' do
     it "always chooses an available winning move" do
+      expect( winnable ).to receive(:first_turn?).and_return(false)
       expect( test_computer.move(winnable, :x) ).to eq([0, 2])
     end
 
     it "picks winners that are two moves away" do
+      expect( two_move_victory ).to receive(:first_turn?).and_return(false)
       move = test_computer.move(two_move_victory, :x)
       expected_moves = [[0, 2], [2, 0]]
       expect( expected_moves.find(move) ).to_not be_nil
     end
 
     it "blocks opponent's winning moves" do
+      expect( blockable_win ).to receive(:first_turn?).and_return(false)
       expect( test_computer.move(blockable_win, :x) ).to eq([1,2])
     end
 
     it "picks a random move if none are winning or losing" do
+      expect( non_losing ).to receive(:first_turn?).and_return(false)
       move = test_computer.move(non_losing, :x)
       expected_moves = [[0, 1], [0, 2], [1, 0], [1, 2], [2,0], [2,1], [2, 2]]
       expect( expected_moves.find(move) ).to_not be_nil

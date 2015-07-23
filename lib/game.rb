@@ -48,6 +48,14 @@ class TicTacToe
     puts @board.render
   end
 
+  def empty_spaces
+    @board.rows.flatten.select { |space| space.nil? }.length
+  end
+
+  def first_turn?
+    empty_spaces == 9 || empty_spaces == 8
+  end
+
   private
 
     def play_turn

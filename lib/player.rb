@@ -42,6 +42,8 @@ class HumanPlayer < Player
 end
 
 class ComputerPlayer < Player
+  CORNERS = [[0, 0], [0, 2], [2, 0], [2, 2]]
+
   def self.names
     ["Tandy 400", "Compy 386", "Lappy 486",
      "Compé", "Lappier", "Roomy-Vac",
@@ -54,29 +56,16 @@ class ComputerPlayer < Player
   end
 
   def move(game, mark)
-    # On first move, play a corner
-    # If going second, play center unless the center and
-    # corners are empty
-    empty_spaces = game.board.rows.flatten.select { |space| space.nil? }.length
-    corners = [[0, 0], [0, 2], [2, 0], [2, 2]]
+    return play_first_turn(game) if game.first_turn?
 
-    if empty_spaces == 9
-      return corners.sample
-    elsif empty_spaces == 8
-      if  game.board[[0,0]].nil? &&
-          game.board[[0,2]].nil? &&
-          game.board[[2,0]].nil? &&
-          game.board[[2,2]].nil? &&
-          !game.board[[1,1]].nil?
-        return corners.sample
-      else
-        return [1,1]
-      end
+    if game.empty_spaces == 6
+      second_move = block_corner_fork(game, mark)
+      return second_move unless second_move.nil?
     end
 
     node = TicTacToeNode.new(game.board, mark)
-
     possible_moves = node.children.shuffle
+
     # Make any winning move
     node = possible_moves.find{ |child| child.winning_node?(mark) }
     return node.prev_mark_pos if node
@@ -96,11 +85,38 @@ class ComputerPlayer < Player
       end
     end
     return node.prev_mark_pos if node
+    byebug
 
     # Make a non-losing move
     node = possible_moves.find{ |child| !child.losing_node?(mark) }
     return node.prev_mark_pos if node
 
     return possible_moves.sample.prev_mark_pos
+  end
+
+  def play_first_turn(game)
+    # On first move, play a corner
+    # If going second, play center unless the center and
+    # corners are empty
+
+    if  game.board[[0,0]].nil? &&
+        game.board[[0,2]].nil? &&
+        game.board[[2,0]].nil? &&
+        game.board[[2,2]].nil? &&
+        !game.board[[1,1]].nil?
+      return CORNERS.sample
+    end
+    return [1,1]
+  end
+
+  def block_corner_fork(game, mark)
+    return nil if game.board[[1,1]] != mark
+
+    if (!game.board[[0,0]].nil? && !game.board[[2,2]].nil?) ||
+       (!game.board[[0,2]].nil? && !game.board[[2,0]].nil?)
+      return [0,1]
+    end
+
+    nil
   end
 end
