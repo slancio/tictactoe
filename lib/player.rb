@@ -43,6 +43,7 @@ end
 
 class ComputerPlayer < Player
   CORNERS = [[0, 0], [0, 2], [2, 0], [2, 2]]
+  SIDES = [[0, 1], [1, 0], [1, 2], [2, 1]]
 
   def self.names
     ["Tandy 400", "Compy 386", "Lappy 486",
@@ -73,50 +74,41 @@ class ComputerPlayer < Player
     # Block an opponent's win
     possible_moves.each do |child|
       child.children.each do |grand_child|
-        if grand_child.board.over?
-          node = grand_child
-        else
-          unless node
-            grand_child.children.each do |great_grand_child|
-              node = grand_child if great_grand_child.board.over?
-            end
-          end
-        end
+        node = grand_child if grand_child.board.won? 
       end
     end
     return node.prev_mark_pos if node
-    byebug
 
     # Make a non-losing move
     node = possible_moves.find{ |child| !child.losing_node?(mark) }
     return node.prev_mark_pos if node
-
-    return possible_moves.sample.prev_mark_pos
   end
 
-  def play_first_turn(game)
-    # On first move, play a corner
-    # If going second, play center unless the center and
-    # corners are empty
-    if CORNERS.all? { |pos| game.board[pos].nil? } &&
-       !game.board[[1,1]].nil?
-      return CORNERS.sample
-    end
-    return [1,1]
-  end
+  private
 
-  def block_corner_fork(game, mark)
-    return nil if game.board[[1,1]] != mark
-
-    if (!game.board[[0,0]].nil? && !game.board[[2,2]].nil?) ||
-       (!game.board[[0,2]].nil? && !game.board[[2,0]].nil?)
-      return [[0, 1], [1, 0], [1, 2], [2, 1]].sample
+    def play_first_turn(game)
+      # On first move, play a corner
+      # If going second, play center unless the center and
+      # corners are empty
+      if CORNERS.all? { |pos| game.board[pos].nil? } &&
+         !game.board[[1,1]].nil?
+        return CORNERS.sample
+      end
+      return [1,1]
     end
 
-    nil
-  end
+    def block_corner_fork(game, mark)
+      return nil if game.board[[1,1]] != mark
 
-  def check_early_fork?(game)
-    game.empty_spaces == 6
-  end
+      if (!game.board[[0,0]].nil? && !game.board[[2,2]].nil?) ||
+         (!game.board[[0,2]].nil? && !game.board[[2,0]].nil?)
+        return SIDES.sample
+      end
+
+      nil
+    end
+
+    def check_early_fork?(game)
+      game.empty_spaces == 6
+    end
 end
