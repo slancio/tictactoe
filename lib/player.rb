@@ -84,13 +84,9 @@ class ComputerPlayer < Player
   end
 
   def score(board, depth)
-    if board.won? && board.winner == @mark
-      return 10 - depth
-    elsif board.won?
-      return depth - 10
-    else
-      return 0
-    end
+    return 0 unless board.won?
+
+    board.winner == @mark ? 10 - depth : depth - 10
   end
 
   def minimax(node, depth)
