@@ -1,38 +1,38 @@
+# TicTactoeNode class to create possible moves tree
+# Provides public methods to create children and evaluate the tree
 class TicTacToeNode
   attr_reader :board
   attr_accessor :next_mark, :prev_mark_pos
 
   def initialize(board, next_mark, prev_mark_pos = nil)
-    @board, @next_mark, @prev_mark_pos =
-      board, next_mark, prev_mark_pos
+    @board = board
+    @next_mark = next_mark
+    @prev_mark_pos = prev_mark_pos
   end
 
   def losing_node?(mark)
-    if board.over?
-      return board.won? && (board.winner != mark)
-    end
+    return (board.won? && (board.winner != mark)) if board.over?
 
     if @next_mark == mark
-      self.children.all? { |child| child.losing_node?(mark) }
+      children.all? { |child| child.losing_node?(mark) }
     else
-      self.children.any? { |child| child.losing_node?(mark) }
+      children.any? { |child| child.losing_node?(mark) }
     end
   end
 
   def winning_node?(mark)
-    if board.over?
-      return board.winner == mark
-    end
+    return board.winner == mark if board.over?
 
     if @next_mark == mark
-      self.children.any? { |child| child.winning_node?(mark) }
+      children.any? { |child| child.winning_node?(mark) }
     else
-      self.children.all? { |child| child.winning_node?(mark) }
+      children.all? { |child| child.winning_node?(mark) }
     end
   end
 
   def children
-    row_max, col_max = @board.rows.length - 1, @board.rows.first.length - 1
+    row_max = @board.rows.length - 1
+    col_max = @board.rows.first.length - 1
 
     [].tap do |children|
       (0..row_max).each do |row_idx|
@@ -42,7 +42,7 @@ class TicTacToeNode
           next unless board.empty_pos?(pos)
 
           new_board = board.dup
-          new_board[pos] = self.next_mark
+          new_board[pos] = next_mark
           next_mark = board.marks.rotate.first
 
           children << TicTacToeNode.new(new_board, next_mark, pos)

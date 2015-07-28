@@ -1,3 +1,5 @@
+# Board class to keep track of the game board
+# Provides public methods to modify board and inform on board status
 class Board
   attr_reader :rows, :marks
 
@@ -6,14 +8,14 @@ class Board
   end
 
   def self.validate_pos(pos)
-    raise "invalid position format" unless pos.length == 2
-    raise "position out of Board range" unless pos.all? { |space| (0..2).include?(space) }
+    fail 'invalid position format' unless pos.length == 2
+    fail 'position out of Board range' unless pos.all? { |space| (0..2).include?(space) }
   end
 
   def initialize(options = {})
     defaults = {
-      :rows => self.class.empty_board,
-      :marks => [:x, :o]
+      rows: self.class.empty_board,
+      marks: [:x, :o]
     }
 
     @rows = options[:rows] || defaults[:rows]
@@ -35,7 +37,7 @@ class Board
   def tied?
     return false if won?
 
-    @rows.flatten.none? { |el| el.nil? }
+    @rows.flatten.none?(&:nil?)
   end
 
   def over?
@@ -45,16 +47,18 @@ class Board
   def [](pos)
     self.class.validate_pos(pos)
 
-    row, col = pos[0], pos[1]
+    row = pos[0]
+    col = pos[1]
     @rows[row][col]
   end
 
   def []=(pos, mark)
     self.class.validate_pos(pos)
-    raise "mark already placed at position" unless empty_pos?(pos)
-    raise "invalid mark" unless @marks.include?(mark)
-    
-    row, col = pos[0], pos[1]
+    fail 'mark already placed at position' unless empty_pos?(pos)
+    fail 'invalid mark' unless @marks.include?(mark)
+
+    row = pos[0]
+    col = pos[1]
     @rows[row][col] = mark
   end
 
@@ -74,14 +78,16 @@ class Board
   end
 
   def dup
-    self.class.new({rows: rows.map(&:dup), marks: marks})
+    self.class.new(rows: rows.map(&:dup), marks: marks)
   end
 
   def render
-    "".tap do |output|
+    ''.tap do |output|
       @rows.each do |row|
-        row.each { |mark| mark.nil? ? output << " "
-                                    : output << mark.to_s.upcase }
+        row.each do |mark|
+          mark.nil? ? output << ' ' : output << mark.to_s.upcase
+        end
+
         output << "\n"
       end
     end
