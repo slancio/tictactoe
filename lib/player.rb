@@ -60,8 +60,49 @@ class ComputerPlayer < Player
 
   def initialize
     super(self.class.names.sample)
+    @mark = nil
   end
 
   def move(game, mark)
+    @mark = mark if @mark.nil?
+
+    node = TicTacToeNode.new(game.board, @mark)
+    find_best_move(node)
+  end
+
+  private
+
+  def find_best_move(node)
+    scores = {}
+
+    node.children.each do |child|
+      scores[child.prev_mark_pos] = minimax(child, 0)
+    end
+
+    max_score = scores.values.max
+    scores.key max_score
+  end
+
+  def score(board, depth)
+    if board.won? && board.winner == @mark
+      return 10 - depth
+    elsif board.won?
+      return depth - 10
+    else
+      return 0
+    end
+  end
+
+  def minimax(node, depth)
+    return score(node.board, depth) if node.board.over?
+    scores = []
+
+    # Traverse and score the tree (score leaf nodes)
+    node.children.each do |child|
+      scores << minimax(child, depth + 1)
+    end
+
+    # Min/Max Calculation
+    node.next_mark == @mark ? scores.max : scores.min
   end
 end
