@@ -23,9 +23,9 @@ class TicTacToeNode
 
           new_board = board.dup
           new_board[pos] = next_mark
-          new_board_mark = board.marks.rotate.first
+          new_board_mark = @board.marks.reject { |mark| mark == @next_mark }
 
-          children << TicTacToeNode.new(new_board, new_board_mark, pos)
+          children << TicTacToeNode.new(new_board, new_board_mark[0], pos)
         end
       end
     end
