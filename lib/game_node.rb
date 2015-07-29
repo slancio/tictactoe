@@ -10,6 +10,26 @@ class TicTacToeNode
     @prev_mark_pos = prev_mark_pos
   end
 
+  def losing_node?(mark)
+    return board.won? && (board.winner != mark) if board.over?
+
+    if @next_mark == mark
+      children.all? { |child| child.losing_node?(mark) }
+    else
+      children.any? { |child| child.losing_node?(mark) }
+    end
+  end
+
+  def winning_node?(mark)
+    return board.winner == mark if board.over?
+
+    if @next_mark == mark
+      children.any? { |child| child.winning_node?(mark) }
+    else
+      children.all? { |child| child.winning_node?(mark) }
+    end
+  end
+
   def children
     row_max = @board.rows.length - 1
     col_max = @board.rows.first.length - 1
