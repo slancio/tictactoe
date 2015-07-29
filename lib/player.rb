@@ -48,9 +48,6 @@ end
 # extend Player
 # ComputerPlayer provides an unbeatable AI to play game
 class ComputerPlayer < Player
-  CORNERS = [[0, 0], [0, 2], [2, 0], [2, 2]]
-  SIDES = [[0, 1], [1, 0], [1, 2], [2, 1]]
-
   def self.names
     ['Tandy 400', 'Compy 386', 'Lappy 486',
      'Compé', 'Lappier', 'Roomy-Vac',
