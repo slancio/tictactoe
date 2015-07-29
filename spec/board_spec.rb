@@ -45,19 +45,30 @@ describe Board do
     end
 
     it 'raises an error on invalid positions' do
-      expect { sample[[1]] }.to raise_error('invalid position format')
-      expect { sample[[1, 2, 3]] }.to raise_error('invalid position format')
-      expect { sample[[0, 3]] }.to raise_error('position out of Board range')
-      expect { sample[[3, 0]] }.to raise_error('position out of Board range')
-      expect { sample[[-3, 1]] }.to raise_error('position out of Board range')
+      expect { sample[[1]] }
+        .to raise_error('invalid position format')
+      expect { sample[[1, 2, 3]] }
+        .to raise_error('invalid position format')
+      expect { sample[[0, 3]] }
+        .to raise_error('position out of Board range')
+      expect { sample[[3, 0]] }
+        .to raise_error('position out of Board range')
+      expect { sample[[-3, 1]] }
+        .to raise_error('position out of Board range')
 
-      expect { sample[[1]] = :x }.to raise_error('invalid position format')
-      expect { sample[[1, 2, 3]] = :o }.to raise_error('invalid position format')
-      expect { sample[[0, 3]] =  :x }.to raise_error('position out of Board range')
-      expect { sample[[3, 0]] = :o }.to raise_error('position out of Board range')
-      expect { sample[[-3, 1]] = nil }.to raise_error('position out of Board range')
+      expect { sample[[1]] = :x }
+        .to raise_error('invalid position format')
+      expect { sample[[1, 2, 3]] = :o }
+        .to raise_error('invalid position format')
+      expect { sample[[0, 3]] =  :x }
+        .to raise_error('position out of Board range')
+      expect { sample[[3, 0]] = :o }
+        .to raise_error('position out of Board range')
+      expect { sample[[-3, 1]] = nil }
+        .to raise_error('position out of Board range')
 
-      expect { sample[[0, 0]] = :o }.to raise_error('mark already placed at position')
+      expect { sample[[0, 0]] = :o }
+        .to raise_error('mark already placed at position')
     end
   end
 
@@ -80,15 +91,51 @@ describe Board do
   end
 
   context 'checking winning positions' do
-    let(:winning_row_one)   { Board.new(rows: [[:x, :x, :x],   [:o, :x, :o],   [nil, :o, nil]])}
-    let(:winning_row_two)   { Board.new(rows: [[:x, :o, :x],   [:o, :o, :o],   [:x, :nil, :x]])}
-    let(:winning_row_three) { Board.new(rows: [[:o, :nil, :o], [:o, :x, :o],   [:x, :x, :x]])}
-    let(:winning_col_one)   { Board.new(rows: [[:x, :o, :x],   [:x, nil, :o],  [:x, nil, nil]])}
-    let(:winning_col_two)   { Board.new(rows: [[nil, :o, :x],  [:x, :o, nil],  [nil, :o, nil]])}
-    let(:winning_col_three) { Board.new(rows: [[:x, :o, :x],   [:o, :x, :x],   [:o, :x, :x]])}
-    let(:winning_diag_one)  { Board.new(rows: [[:x, :o, nil],  [nil, :x, nil], [:o, :x, :x]])}
-    let(:winning_diag_two)  { Board.new(rows: [[:o, nil, :x],  [:o, :x, :x],   [:x, :o, nil]])}
-    let(:tied_board)        { Board.new(rows: [[:o, :x, :o],   [:x, :o, :x],   [:x, :o, :x]])}
+    let(:winning_row_one) do
+      Board.new(rows: [[:x, :x, :x],
+                       [:o, :x, :o],
+                       [nil, :o, nil]])
+    end
+    let(:winning_row_two) do
+      Board.new(rows: [[:x, :o, :x],
+                       [:o, :o, :o],
+                       [:x, :nil, :x]])
+    end
+    let(:winning_row_three) do
+      Board.new(rows: [[:o, :nil, :o],
+                       [:o, :x, :o],
+                       [:x, :x, :x]])
+    end
+    let(:winning_col_one) do
+      Board.new(rows: [[:x, :o, :x],
+                       [:x, nil, :o],
+                       [:x, nil, nil]])
+    end
+    let(:winning_col_two) do
+      Board.new(rows: [[nil, :o, :x],
+                       [:x, :o, nil],
+                       [nil, :o, nil]])
+    end
+    let(:winning_col_three) do
+      Board.new(rows: [[:x, :o, :x],
+                       [:o, :x, :x],
+                       [:o, :x, :x]])
+    end
+    let(:winning_diag_one) do
+      Board.new(rows: [[:x, :o, nil],
+                       [nil, :x, nil],
+                       [:o, :x, :x]])
+    end
+    let(:winning_diag_two) do
+      Board.new(rows: [[:o, nil, :x],
+                       [:o, :x, :x],
+                       [:x, :o, nil]])
+    end
+    let(:tied_board) do
+      Board.new(rows: [[:o, :x, :o],
+                       [:x, :o, :x],
+                       [:x, :o, :x]])
+    end
 
     it 'returns #rows' do
       expect(sample.rows).to eq([[:x, :o, :x],
