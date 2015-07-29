@@ -57,7 +57,6 @@ class ComputerPlayer < Player
 
   def initialize
     super(self.class.names.sample)
-    @mark = nil
   end
 
   def move(game, mark)
