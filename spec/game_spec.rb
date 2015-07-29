@@ -136,7 +136,8 @@ describe TicTacToe do
     #                        players: { x: TestPlayer.new, o: TestPlayer.new },
     #                        turn_order: [:x, :o])
     #   thread = Thread.new { game.play }
-    #   expect { thread.run }.to output(/A mark is already in that space/).to_stdout
+    #   expect { thread.run }.
+    #     to output(/A mark is already in that space/).to_stdout
     #   thread.kill
     # end
   end
