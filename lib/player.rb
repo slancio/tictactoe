@@ -48,9 +48,6 @@ end
 # extend Player
 # ComputerPlayer provides an unbeatable AI to play game
 class ComputerPlayer < Player
-  CORNERS = [[0, 0], [0, 2], [2, 0], [2, 2]]
-  SIDES = [[0, 1], [1, 0], [1, 2], [2, 1]]
-
   def self.names
     ['Tandy 400', 'Compy 386', 'Lappy 486',
      'Compé', 'Lappier', 'Roomy-Vac',
@@ -64,41 +61,19 @@ class ComputerPlayer < Player
   end
 
   def move(game, mark)
-    @mark = mark if @mark.nil?
+    node = TicTacToeNode.new(game.board, mark)
 
-    node = TicTacToeNode.new(game.board, @mark)
-    find_best_move(node)
-  end
+    possible_moves = node.children.shuffle
 
-  private
+    # make any winning move
+    node = possible_moves.find { |child| child.winning_node?(mark) }
+    return node.prev_mark_pos if node
 
-  def find_best_move(node)
-    scores = {}
+    # make a non-losing move
+    node =  possible_moves.find { |child| !child.losing_node?(mark) }
+    return node.prev_mark_pos if node
 
-    node.children.each do |child|
-      scores[child.prev_mark_pos] = minimax(child, 0)
-    end
-
-    max_score = scores.values.max
-    scores.key max_score
-  end
-
-  def score(board, depth)
-    return 0 unless board.won?
-
-    board.winner == @mark ? 10 - depth : depth - 10
-  end
-
-  def minimax(node, depth)
-    return score(node.board, depth) if node.board.over?
-    scores = []
-
-    # Traverse and score the tree (score leaf nodes)
-    node.children.each do |child|
-      scores << minimax(child, depth + 1)
-    end
-
-    # Min/Max Calculation
-    node.next_mark == @mark ? scores.max : scores.min
+    # this should never happen
+    fail 'Wait, it looks like I am going to lose?'
   end
 end
