@@ -63,14 +63,14 @@ class ComputerPlayer < Player
   def move(game, mark)
     node = TicTacToeNode.new(game.board, mark)
 
-    possible_moves = node.children.shuffle
+    next_moves = node.children.shuffle
 
     # make any winning move
-    node = possible_moves.find { |child| child.winning_node?(mark) }
+    node = next_moves.find { |child| child.winning_node?(mark) }
     return node.prev_mark_pos if node
 
     # make a non-losing move
-    node =  possible_moves.find { |child| !child.losing_node?(mark) }
+    node =  next_moves.find { |child| !child.losing_node?(mark) }
     return node.prev_mark_pos if node
 
     # this should never happen
