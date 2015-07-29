@@ -80,16 +80,15 @@ describe ComputerPlayer do
            turn_order: [:x, :o],
            empty_spaces: 6)
   end
-  # See note @ test below
-  # let(:non_winnable) do
-  #   test_board = Board.new
-  #   test_board[[0, 0]] = :o
-  #   test_board[[2, 2]] = :o
-  #   test_board[[2, 0]] = :o
-  #   double('TicTacToe',
-  #          board: test_board,
-  #          turn_order: [:x, :o])
-  # end
+  let(:non_winnable) do
+    test_board = Board.new
+    test_board[[0, 0]] = :o
+    test_board[[2, 2]] = :o
+    test_board[[2, 0]] = :o
+    double('TicTacToe',
+           board: test_board,
+           turn_order: [:x, :o])
+  end
   let(:two_move_victory) do
     test_board = Board.new
     test_board[[0, 0]] = :x
@@ -137,13 +136,9 @@ describe ComputerPlayer do
       expect(expected_moves.find(move)).to_not be_nil
     end
 
-    # With the way that opponent blocking is written, this can
-    # no longer be tested. Considering a refactor to make this
-    # testable.
-    #
-    # it 'raises an error if it cannot find a win or draw' do
-    #   expect { test_computer.move(non_winnable, :x) }
-    #     .to raise_error("Wait, it looks like I'm going to lose?")
-    # end
+    it 'raises an error if it cannot find a win or draw' do
+      expect { test_computer.move(non_winnable, :x) }
+        .to raise_error('Wait, it looks like I am going to lose?')
+    end
   end
 end
